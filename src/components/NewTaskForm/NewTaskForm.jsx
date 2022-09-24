@@ -1,25 +1,30 @@
+import { useState } from "react";
 import "./NewTaskForm.css";
 
 const NewTaskForm = ({ onTaskAdded }) => {
-  const onInputKeyDown = (e) => {
-    const label = e.target.value;
-    if (e.key === "Enter") {
-      if (label.length > 0) {
-        onTaskAdded(label);
-        e.target.value = "";
-      }
+  const [label, setLabel] = useState("");
 
-      e.preventDefault();
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (label.length > 0) {
+      onTaskAdded(label);
+      setLabel("");
     }
   };
 
+  const onChange = (e) => {
+    setLabel(e.target.value);
+  };
+
   return (
-    <form className="add-item-form">
+    <form className="add-item-form" onSubmit={onSubmit}>
       <input
         className="add-item-input"
         placeholder="What needs to be done?"
         autoFocus
-        onKeyDown={onInputKeyDown}
+        value={label}
+        onChange={onChange}
       />
     </form>
   );

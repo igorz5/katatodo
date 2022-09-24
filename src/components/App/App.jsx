@@ -27,7 +27,9 @@ const App = () => {
     },
   ]);
 
-  let lastId = useRef(todoData.length);
+  const [filterType, setFilterType] = useState("all");
+
+  const lastId = useRef(todoData.length);
 
   const itemsLeft = todoData.reduce((acc, item) => {
     return acc + (item.completed ? 0 : 1);
@@ -70,12 +72,37 @@ const App = () => {
     setTodoData(newTodoData);
   };
 
+  const filteredTodoData = () => {
+    if (filterType === "all") return todoData;
+
+    return todoData.filter((taskData) => {
+      if (filterType === "active") {
+        return !taskData.completed;
+      }
+
+      if (filterType === "completed") {
+        return taskData.completed;
+      }
+
+      return true;
+    });
+  };
+
   return (
     <section className="todoapp">
       <AppHeader onTaskAdded={addNewTask} />
       <section className="main">
-        <TodoList items={todoData} onUpdate={onUpdate} onDelete={deleteTask} />
-        <AppFooter itemsLeft={itemsLeft} onClearCompleted={clearCompleted} />
+        <TodoList
+          items={filteredTodoData()}
+          onUpdate={onUpdate}
+          onDelete={deleteTask}
+        />
+        <AppFooter
+          itemsLeft={itemsLeft}
+          currentFilterType={filterType}
+          onClearCompleted={clearCompleted}
+          onFilterTypeChanged={setFilterType}
+        />
       </section>
     </section>
   );

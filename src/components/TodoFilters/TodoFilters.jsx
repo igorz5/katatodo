@@ -1,16 +1,31 @@
 import "./TodoFilters.css";
 
-const TodoFilters = () => {
+const TodoFilters = ({ current, onFilterTypeChanged }) => {
   return (
     <ul className="todo-filters">
       <li>
-        <button className="selected">All</button>
+        <button
+          className={current === "all" ? "selected" : ""}
+          onClick={() => onFilterTypeChanged("all")}
+        >
+          All
+        </button>
       </li>
       <li>
-        <button>Active</button>
+        <button
+          className={current === "active" ? "selected" : ""}
+          onClick={() => onFilterTypeChanged("active")}
+        >
+          Active
+        </button>
       </li>
       <li>
-        <button>Completed</button>
+        <button
+          className={current === "completed" ? "selected" : ""}
+          onClick={() => onFilterTypeChanged("completed")}
+        >
+          Completed
+        </button>
       </li>
     </ul>
   );
