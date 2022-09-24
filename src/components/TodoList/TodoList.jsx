@@ -1,11 +1,17 @@
 import TodoTask from "../TodoTask/TodoTask";
 import "./TodoList.css";
 
-const TodoList = ({ items }) => {
-  const elements = items.map((data) => {
+const TodoList = ({ items, onUpdate, onDelete }) => {
+  const elements = items.map((taskData) => {
     return (
-      <li key={data.id} className="todo-list-item">
-        <TodoTask data={data} />
+      <li key={taskData.id} className="todo-list-item">
+        <TodoTask
+          data={taskData}
+          onUpdate={(data) => onUpdate(taskData.id, data)}
+          onDelete={() => {
+            onDelete(taskData.id);
+          }}
+        />
       </li>
     );
   });
