@@ -1,17 +1,25 @@
 import TodoFilters from "../TodoFilters/TodoFilters";
+import FilterType from "../../types/FilterType";
 import "./AppFooter.css";
 
-const AppFooter = ({
-  currentFilterType,
+interface AppFooterProps {
+  filterType: FilterType;
+  itemsLeft: number;
+  onClearCompleted: React.MouseEventHandler<HTMLButtonElement>;
+  onFilterTypeChanged: (type: FilterType) => void;
+}
+
+function AppFooter({
+  filterType,
   itemsLeft,
   onClearCompleted,
   onFilterTypeChanged,
-}) => {
+}: AppFooterProps) {
   return (
     <footer className="app-footer">
       <span className="todo-count">{`${itemsLeft} items left`}</span>
       <TodoFilters
-        current={currentFilterType}
+        filterType={filterType}
         onFilterTypeChanged={onFilterTypeChanged}
       />
       <button className="clear-completed" onClick={onClearCompleted}>
@@ -19,6 +27,6 @@ const AppFooter = ({
       </button>
     </footer>
   );
-};
+}
 
 export default AppFooter;

@@ -1,41 +1,44 @@
+import { useRef, useState } from "react";
+
 import AppHeader from "../AppHeader/AppHeader";
 import TodoList from "../TodoList/TodoList";
 import AppFooter from "../AppFooter/AppFooter";
-import { useRef, useState } from "react";
-
+import FilterType from "../../types/FilterType";
+import TaskData from "../../types/TaskData";
 import "./App.css";
 
-const App = () => {
+function App() {
   const [todoData, setTodoData] = useState([
     {
       label: "Drink Coffee",
       completed: true,
       id: 1,
-      time: new Date(),
+      createdTime: new Date(),
     },
     {
       label: "Make Awesome App",
       completed: false,
       id: 2,
-      time: new Date(),
+      createdTime: new Date(),
     },
     {
       label: "Have a lunch",
       completed: false,
       id: 3,
-      time: new Date(),
+      createdTime: new Date(),
     },
   ]);
 
-  const [filterType, setFilterType] = useState("all");
+  const [filterType, setFilterType] = useState(FilterType.All);
 
   const lastId = useRef(todoData.length);
 
-  const itemsLeft = todoData.reduce((acc, item) => {
-    return acc + (item.completed ? 0 : 1);
-  }, 0);
+  const itemsLeft = todoData.reduce(
+    (acc, item) => acc + (item.completed ? 0 : 1),
+    0
+  );
 
-  const onUpdate = (id, data) => {
+  const onUpdate = (id: number, data: TaskData) => {
     const i = todoData.findIndex((taskData) => taskData.id === id);
     if (i >= 0) {
       const newTodoData = [...todoData];
@@ -45,22 +48,22 @@ const App = () => {
     }
   };
 
-  const addNewTask = (label) => {
+  const addNewTask = (label: string) => {
     const newTodoData = [...todoData];
     const id = lastId.current + 1;
     lastId.current = id;
 
     newTodoData.push({
-      label: label,
+      label,
       completed: false,
-      time: new Date(),
-      id: id,
+      createdTime: new Date(),
+      id,
     });
 
     setTodoData(newTodoData);
   };
 
-  const deleteTask = (id) => {
+  const deleteTask = (id: number) => {
     const newTodoData = todoData.filter((taskData) => taskData.id !== id);
 
     setTodoData(newTodoData);
@@ -73,19 +76,19 @@ const App = () => {
   };
 
   const filteredTodoData = () => {
-    if (filterType === "all") return todoData;
+    if (filterType === FilterType.All) return todoData;
 
     return todoData.filter((taskData) => {
-      if (filterType === "active") {
+      if (filterType === FilterType.Active) {
         return !taskData.completed;
       }
 
-      if (filterType === "completed") {
+      if (filterType === FilterType.Completed) {
         return taskData.completed;
       }
 
       return true;
-    });
+    }) as TaskData[];
   };
 
   return (
@@ -99,13 +102,13 @@ const App = () => {
         />
         <AppFooter
           itemsLeft={itemsLeft}
-          currentFilterType={filterType}
+          filterType={filterType}
           onClearCompleted={clearCompleted}
           onFilterTypeChanged={setFilterType}
         />
       </section>
     </section>
   );
-};
+}
 
 export default App;

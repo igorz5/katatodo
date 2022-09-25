@@ -1,10 +1,14 @@
 import { useState } from "react";
 import "./NewTaskForm.css";
 
-const NewTaskForm = ({ onTaskAdded }) => {
+interface NewTaskFormProps {
+  onTaskAdded: (label: string) => void;
+}
+
+function NewTaskForm({ onTaskAdded }: NewTaskFormProps) {
   const [label, setLabel] = useState("");
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (label.length > 0) {
@@ -13,7 +17,7 @@ const NewTaskForm = ({ onTaskAdded }) => {
     }
   };
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLabel(e.target.value);
   };
 
@@ -28,6 +32,6 @@ const NewTaskForm = ({ onTaskAdded }) => {
       />
     </form>
   );
-};
+}
 
 export default NewTaskForm;
