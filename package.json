@@ -18,15 +18,10 @@
     "lint:fix": "eslint --fix ./src/**/*.{js,jsx,ts,tsx}",
     "format": "prettier --write ./src/**/*.{js,jsx,ts,tsx,css} --config ./.prettierrc"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "./src/**/*.{js,jsx,ts,tsx}": [
-      "npm run format",
-      "npm run lint:fix"
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix --cache",
+      "prettier --write --config ./.prettierrc"
     ]
   },
   "browserslist": {
