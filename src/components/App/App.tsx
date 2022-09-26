@@ -1,9 +1,9 @@
 import { FC, useRef, useState } from "react";
 
-import AppHeader from "../AppHeader/AppHeader";
-import TodoList from "../TodoList/TodoList";
-import AppFooter from "../AppFooter/AppFooter";
-import TaskData from "../../types/TaskData";
+import { AppHeader } from "../AppHeader/AppHeader";
+import { TodoList } from "../TodoList/TodoList";
+import { AppFooter } from "../AppFooter/AppFooter";
+import { TaskData } from "../../types/TaskData";
 import { FilterType } from "../TodoFilters/TodoFilters";
 import "./App.css";
 
@@ -111,4 +111,4 @@ const App: FC = () => {
   );
 };
 
-export default App;
+export { App };

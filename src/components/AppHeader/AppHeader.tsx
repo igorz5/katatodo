@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import NewTaskForm from "../NewTaskForm/NewTaskForm";
+import { NewTaskForm } from "../NewTaskForm/NewTaskForm";
 import "./AppHeader.css";
 
 interface AppHeaderProps {
@@ -16,4 +16,4 @@ const AppHeader: FC<AppHeaderProps> = ({ onTaskAdded }) => {
   );
 };
 
-export default AppHeader;
+export { AppHeader };

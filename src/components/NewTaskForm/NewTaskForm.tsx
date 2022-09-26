@@ -35,4 +35,4 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onTaskAdded }) => {
   );
 };
 
-export default NewTaskForm;
+export { NewTaskForm };

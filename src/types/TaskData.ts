@@ -5,4 +5,4 @@ interface TaskData {
   createdTime: Date;
 }
 
-export default TaskData;
+export type { TaskData };

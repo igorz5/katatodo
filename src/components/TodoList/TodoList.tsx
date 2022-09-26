@@ -1,7 +1,7 @@
 import { FC } from "react";
 
-import TaskData from "../../types/TaskData";
-import TodoTask from "../TodoTask/TodoTask";
+import { TaskData } from "../../types/TaskData";
+import { TodoTask } from "../TodoTask/TodoTask";
 import "./TodoList.css";
 
 interface TodoListProps {
@@ -11,18 +11,23 @@ interface TodoListProps {
 }
 
 const TodoList: FC<TodoListProps> = ({ items, onUpdate, onDelete }) => {
-  const elements = items.map((taskData: TaskData) => (
-    <li key={taskData.id} className="todo-list-item">
-      <TodoTask
-        data={taskData}
-        onUpdate={(data) => onUpdate(taskData.id, data)}
-        onDelete={() => {
-          onDelete(taskData.id);
-        }}
-      />
-    </li>
-  ));
-  return <ul className="todo-list">{elements}</ul>;
+  return (
+    <ul className="todo-list">
+      {items.map((taskData: TaskData) => {
+        return (
+          <li key={taskData.id} className="todo-list-item">
+            <TodoTask
+              data={taskData}
+              onUpdate={(data: TaskData) => onUpdate(taskData.id, data)}
+              onDelete={() => {
+                onDelete(taskData.id);
+              }}
+            />
+          </li>
+        );
+      })}
+    </ul>
+  );
 };
 
-export default TodoList;
+export { TodoList };

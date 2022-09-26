@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 
-import TaskData from "../../types/TaskData";
+import { TaskData } from "../../types/TaskData";
 import { formatTimeForTask } from "../../utils/formatTime";
 
 import "./TodoTask.css";
@@ -19,10 +19,7 @@ const TodoTask: FC<TodoTaskProps> = ({ data, onUpdate, onDelete }) => {
   );
 
   const toggleCompletion = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newData = { ...data };
-    newData.completed = e.target.checked;
-
-    onUpdate(newData);
+    onUpdate({ ...data, completed: e.target.checked });
   };
 
   const onEditBtnClick = () => {
@@ -100,4 +97,4 @@ const TodoTask: FC<TodoTaskProps> = ({ data, onUpdate, onDelete }) => {
   );
 };
 
-export default TodoTask;
+export { TodoTask };

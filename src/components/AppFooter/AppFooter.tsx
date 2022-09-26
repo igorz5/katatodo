@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import TodoFilters, { FilterType } from "../TodoFilters/TodoFilters";
+import { TodoFilters, FilterType } from "../TodoFilters/TodoFilters";
 import "./AppFooter.css";
 
 interface AppFooterProps {
@@ -30,4 +30,4 @@ const AppFooter: FC<AppFooterProps> = ({
   );
 };
 
-export default AppFooter;
+export { AppFooter };

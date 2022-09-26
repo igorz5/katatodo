@@ -16,34 +16,36 @@ const TodoFilters: FC<TodoFiltersProps> = ({
   filterType,
   onFilterTypeChanged,
 }) => {
+  const buttons = [
+    {
+      type: FilterType.All,
+      name: "All",
+    },
+    {
+      type: FilterType.Active,
+      name: "Active",
+    },
+    {
+      type: FilterType.Completed,
+      name: "Completed",
+    },
+  ];
   return (
     <ul className="todo-filters">
-      <li>
-        <button
-          className={filterType === FilterType.All ? "selected" : ""}
-          onClick={() => onFilterTypeChanged(FilterType.All)}
-        >
-          All
-        </button>
-      </li>
-      <li>
-        <button
-          className={filterType === FilterType.Active ? "selected" : ""}
-          onClick={() => onFilterTypeChanged(FilterType.Active)}
-        >
-          Active
-        </button>
-      </li>
-      <li>
-        <button
-          className={filterType === FilterType.Completed ? "selected" : ""}
-          onClick={() => onFilterTypeChanged(FilterType.Completed)}
-        >
-          Completed
-        </button>
-      </li>
+      {buttons.map((btn) => {
+        return (
+          <li key={btn.name}>
+            <button
+              className={filterType === btn.type ? "selected" : ""}
+              onClick={() => onFilterTypeChanged(btn.type)}
+            >
+              {btn.name}
+            </button>
+          </li>
+        );
+      })}
     </ul>
   );
 };
 
-export default TodoFilters;
+export { TodoFilters };
