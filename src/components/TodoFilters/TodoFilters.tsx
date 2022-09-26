@@ -1,13 +1,21 @@
-import FilterType from "../../types/FilterType";
-
+import { FC } from "react";
 import "./TodoFilters.css";
+
+export enum FilterType {
+  All,
+  Active,
+  Completed,
+}
 
 interface TodoFiltersProps {
   filterType: FilterType;
   onFilterTypeChanged: (type: FilterType) => void;
 }
 
-function TodoFilters({ filterType, onFilterTypeChanged }: TodoFiltersProps) {
+const TodoFilters: FC<TodoFiltersProps> = ({
+  filterType,
+  onFilterTypeChanged,
+}) => {
   return (
     <ul className="todo-filters">
       <li>
@@ -36,6 +44,6 @@ function TodoFilters({ filterType, onFilterTypeChanged }: TodoFiltersProps) {
       </li>
     </ul>
   );
-}
+};
 
 export default TodoFilters;

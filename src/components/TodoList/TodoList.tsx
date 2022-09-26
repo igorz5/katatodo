@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 import TaskData from "../../types/TaskData";
 import TodoTask from "../TodoTask/TodoTask";
 import "./TodoList.css";
@@ -8,7 +10,7 @@ interface TodoListProps {
   onDelete: (id: number) => void;
 }
 
-function TodoList({ items, onUpdate, onDelete }: TodoListProps) {
+const TodoList: FC<TodoListProps> = ({ items, onUpdate, onDelete }) => {
   const elements = items.map((taskData: TaskData) => (
     <li key={taskData.id} className="todo-list-item">
       <TodoTask
@@ -21,6 +23,6 @@ function TodoList({ items, onUpdate, onDelete }: TodoListProps) {
     </li>
   ));
   return <ul className="todo-list">{elements}</ul>;
-}
+};
 
 export default TodoList;

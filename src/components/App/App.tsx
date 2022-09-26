@@ -1,13 +1,13 @@
-import { useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 
 import AppHeader from "../AppHeader/AppHeader";
 import TodoList from "../TodoList/TodoList";
 import AppFooter from "../AppFooter/AppFooter";
-import FilterType from "../../types/FilterType";
 import TaskData from "../../types/TaskData";
+import { FilterType } from "../TodoFilters/TodoFilters";
 import "./App.css";
 
-function App() {
+const App: FC = () => {
   const [todoData, setTodoData] = useState([
     {
       label: "Drink Coffee",
@@ -109,6 +109,6 @@ function App() {
       </section>
     </section>
   );
-}
+};
 
 export default App;

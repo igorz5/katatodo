@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { FC, useState } from "react";
+
 import "./NewTaskForm.css";
 
 interface NewTaskFormProps {
   onTaskAdded: (label: string) => void;
 }
 
-function NewTaskForm({ onTaskAdded }: NewTaskFormProps) {
+const NewTaskForm: FC<NewTaskFormProps> = ({ onTaskAdded }) => {
   const [label, setLabel] = useState("");
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,6 +33,6 @@ function NewTaskForm({ onTaskAdded }: NewTaskFormProps) {
       />
     </form>
   );
-}
+};
 
 export default NewTaskForm;

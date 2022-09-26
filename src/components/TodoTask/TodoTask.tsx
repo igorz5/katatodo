@@ -1,7 +1,7 @@
-import { formatDistanceToNow } from "date-fns";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import TaskData from "../../types/TaskData";
+import { formatTimeForTask } from "../../utils/formatTime";
 
 import "./TodoTask.css";
 
@@ -11,13 +11,7 @@ interface TodoTaskProps {
   onDelete: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const formatCreatedString = (time: Date) =>
-  `created ${formatDistanceToNow(time, {
-    includeSeconds: true,
-    addSuffix: true,
-  })}`;
-
-function TodoTask({ data, onUpdate, onDelete }: TodoTaskProps) {
+const TodoTask: FC<TodoTaskProps> = ({ data, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const classNames = ["todo-task"];
@@ -36,12 +30,12 @@ function TodoTask({ data, onUpdate, onDelete }: TodoTaskProps) {
   };
 
   const [createdString, setCreatedString] = useState(
-    formatCreatedString(data.createdTime)
+    formatTimeForTask(data.createdTime)
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCreatedString(formatCreatedString(data.createdTime));
+      setCreatedString(formatTimeForTask(data.createdTime));
     }, 100);
 
     return () => {
@@ -53,31 +47,21 @@ function TodoTask({ data, onUpdate, onDelete }: TodoTaskProps) {
     classNames.push("completed");
   }
 
-  let editInput;
   if (isEditing) {
     classNames.push("editing");
-
-    const onEditKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-      if (e.key === "Enter") {
-        setIsEditing(false);
-
-        const target = e.target as HTMLInputElement;
-        const newData = { ...data };
-        newData.label = target.value;
-
-        onUpdate(newData);
-      }
-    };
-
-    editInput = (
-      <input
-        type="text"
-        className="edit"
-        defaultValue={data.label}
-        onKeyDown={onEditKeyDown}
-      />
-    );
   }
+
+  const onEditKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Enter") {
+      setIsEditing(false);
+
+      const target = e.target as HTMLInputElement;
+      const newData = { ...data };
+      newData.label = target.value;
+
+      onUpdate(newData);
+    }
+  };
 
   return (
     <div className={classNames.join(" ")}>
@@ -95,9 +79,16 @@ function TodoTask({ data, onUpdate, onDelete }: TodoTaskProps) {
         <button className="icon icon-edit" onClick={onEditBtnClick} />
         <button className="icon icon-destroy" onClick={onDelete} />
       </div>
-      {editInput}
+      {isEditing && (
+        <input
+          type="text"
+          className="edit"
+          defaultValue={data.label}
+          onKeyDown={onEditKeyDown}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default TodoTask;

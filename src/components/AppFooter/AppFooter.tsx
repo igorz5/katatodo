@@ -1,5 +1,6 @@
-import TodoFilters from "../TodoFilters/TodoFilters";
-import FilterType from "../../types/FilterType";
+import { FC } from "react";
+
+import TodoFilters, { FilterType } from "../TodoFilters/TodoFilters";
 import "./AppFooter.css";
 
 interface AppFooterProps {
@@ -9,12 +10,12 @@ interface AppFooterProps {
   onFilterTypeChanged: (type: FilterType) => void;
 }
 
-function AppFooter({
+const AppFooter: FC<AppFooterProps> = ({
   filterType,
   itemsLeft,
   onClearCompleted,
   onFilterTypeChanged,
-}: AppFooterProps) {
+}) => {
   return (
     <footer className="app-footer">
       <span className="todo-count">{`${itemsLeft} items left`}</span>
@@ -27,6 +28,6 @@ function AppFooter({
       </button>
     </footer>
   );
-}
+};
 
 export default AppFooter;
