@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 
 import "./NewTaskForm.css";
 
@@ -9,29 +9,26 @@ interface NewTaskFormProps {
 const NewTaskForm: FC<NewTaskFormProps> = ({ onTaskAdded }) => {
   const [label, setLabel] = useState("");
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLabel(e.target.value);
+  };
 
-    if (label.length > 0) {
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && label.length > 0) {
       onTaskAdded(label);
       setLabel("");
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLabel(e.target.value);
-  };
-
   return (
-    <form className="add-item-form" onSubmit={onSubmit}>
-      <input
-        className="add-item-input"
-        placeholder="What needs to be done?"
-        autoFocus
-        value={label}
-        onChange={onChange}
-      />
-    </form>
+    <input
+      className="add-item-input"
+      placeholder="What needs to be done?"
+      autoFocus
+      value={label}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+    />
   );
 };
 
