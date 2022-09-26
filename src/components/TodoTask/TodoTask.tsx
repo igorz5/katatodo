@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 
 import TaskData from "../../types/TaskData";
 import { formatTimeForTask } from "../../utils/formatTime";
@@ -12,9 +12,11 @@ interface TodoTaskProps {
 }
 
 const TodoTask: FC<TodoTaskProps> = ({ data, onUpdate, onDelete }) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
-
-  const classNames = ["todo-task"];
+  const [createdString, setCreatedString] = useState(
+    formatTimeForTask(data.createdTime)
+  );
 
   const toggleCompletion = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newData = { ...data };
@@ -29,20 +31,27 @@ const TodoTask: FC<TodoTaskProps> = ({ data, onUpdate, onDelete }) => {
     }
   };
 
-  const [createdString, setCreatedString] = useState(
-    formatTimeForTask(data.createdTime)
-  );
+  const handleClickOutside = (e: MouseEvent) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+      setIsEditing(false);
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCreatedString(formatTimeForTask(data.createdTime));
     }, 100);
 
+    document.addEventListener("click", handleClickOutside);
+
     return () => {
       clearInterval(interval);
+
+      document.removeEventListener("click", handleClickOutside);
     };
   }, [data.createdTime, createdString]);
 
+  const classNames = ["todo-task"];
   if (data.completed) {
     classNames.push("completed");
   }
@@ -64,7 +73,7 @@ const TodoTask: FC<TodoTaskProps> = ({ data, onUpdate, onDelete }) => {
   };
 
   return (
-    <div className={classNames.join(" ")}>
+    <div className={classNames.join(" ")} ref={wrapperRef}>
       <div className="view">
         <input
           className="toggle"

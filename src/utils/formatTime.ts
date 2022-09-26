@@ -1,7 +1,8 @@
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 
 export function formatTimeForTask(time: Date): string {
-  return `created ${formatDistanceToNow(time, {
+  return `created ${formatDistanceToNowStrict(time, {
+    roundingMethod: "ceil",
     addSuffix: true,
   })}`;
 }
