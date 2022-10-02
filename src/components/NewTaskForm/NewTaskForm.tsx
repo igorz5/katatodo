@@ -1,34 +1,82 @@
-import React, { FC, useState } from "react";
+import { ChangeEvent, FC, KeyboardEvent, useState } from "react";
 
 import "./NewTaskForm.css";
 
 interface NewTaskFormProps {
-  onTaskAdded: (label: string) => void;
+  onTaskAdded: (label: string, time: number) => void;
 }
 
-const NewTaskForm: FC<NewTaskFormProps> = ({ onTaskAdded }) => {
-  const [label, setLabel] = useState("");
+type TaskParams = {
+  label?: string;
+  minutes?: number;
+  seconds?: number;
+};
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLabel(e.target.value);
+const NewTaskForm: FC<NewTaskFormProps> = ({ onTaskAdded }) => {
+  const [params, setParams] = useState<TaskParams>({});
+
+  const onKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key !== "Enter") return;
+
+    const { label, seconds, minutes } = { ...params };
+
+    if (minutes == null && seconds == null) return;
+    if (label == null || label.length === 0) return;
+
+    const mins = minutes || 0;
+    const secs = seconds || 0;
+
+    const taskTimeMS = (mins * 60 + secs) * 1000;
+    onTaskAdded(label, taskTimeMS);
+
+    setParams({});
   };
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && label.length > 0) {
-      onTaskAdded(label);
-      setLabel("");
+  const updateParams = (name: keyof TaskParams, value: string) => {
+    const newParams = { ...params };
+
+    if (name === "minutes" || name === "seconds") {
+      const n = Number(value);
+      if (!isNaN(n)) {
+        newParams[name] = n;
+      }
+    } else {
+      newParams[name] = value;
     }
+
+    setParams(newParams);
   };
 
   return (
-    <input
-      className="add-item-input"
-      placeholder="What needs to be done?"
-      autoFocus
-      value={label}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-    />
+    <form className="new-todo-form" onKeyDown={onKeyDown}>
+      <input
+        className="new-todo"
+        placeholder="Task"
+        autoFocus
+        value={params.label || ""}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          updateParams("label", e.target.value);
+        }}
+      />
+      <input
+        className="new-todo-form__timer"
+        placeholder="Min"
+        autoFocus
+        value={params.minutes || ""}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          updateParams("minutes", e.target.value);
+        }}
+      />
+      <input
+        className="new-todo-form__timer"
+        placeholder="Sec"
+        autoFocus
+        value={params.seconds || ""}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          updateParams("seconds", e.target.value);
+        }}
+      />
+    </form>
   );
 };
 

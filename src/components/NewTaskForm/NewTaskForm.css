@@ -1,7 +1,12 @@
-.add-item-input {
+.new-todo-form {
+  display: flex;
+  margin-bottom: 0;
+}
+
+.new-todo,
+.new-todo-form .new-todo-form__timer {
   position: relative;
   margin: 0;
-  width: 100%;
   font-size: 24px;
   font-family: inherit;
   font-weight: inherit;
@@ -14,4 +19,13 @@
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.new-todo {
+  width: 70%;
+}
+
+.new-todo-form .new-todo-form__timer {
+  width: 15%;
+  padding-left: 16px;
 }

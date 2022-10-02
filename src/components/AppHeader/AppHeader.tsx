@@ -4,7 +4,7 @@ import { NewTaskForm } from "../NewTaskForm/NewTaskForm";
 import "./AppHeader.css";
 
 interface AppHeaderProps {
-  onTaskAdded: (label: string) => void;
+  onTaskAdded: (label: string, time: number) => void;
 }
 
 const AppHeader: FC<AppHeaderProps> = ({ onTaskAdded }) => {
